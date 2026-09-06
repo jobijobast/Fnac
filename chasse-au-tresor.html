@@ -1,0 +1,526 @@
+<title>La Chasse au Trésor</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;700;800&display=swap">
+<style>
+  :root{
+    --bg:#0E0E0F;
+    --surface:#19191B;
+    --surface-border:#2A2A2D;
+    --text:#F5F5F2;
+    --text-soft:#9C9C9F;
+    --yellow:#FFD100;
+    --yellow-ink:#171717;
+    --shadow:rgba(0,0,0,0.45);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Manrope','Helvetica Neue',Arial,sans-serif;
+  }
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} }
+
+  .scene{max-width:1080px; margin:0 auto; padding:3.2rem 1.5rem 4rem;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    max-width:600px;
+    margin:0 auto;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:1.1rem;
+  }
+  .logo-chip{
+    display:inline-block;
+    background:var(--yellow);
+    color:var(--yellow-ink);
+    font-family:'Anton','Arial Narrow',sans-serif;
+    font-size:1.15rem;
+    letter-spacing:.02em;
+    padding:.3em .75em .35em;
+    border-radius:8px;
+  }
+  .eyebrow{
+    font-size:.78rem;
+    font-weight:700;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--text-soft);
+    margin:0;
+  }
+  h1{
+    font-family:'Anton','Arial Narrow',sans-serif;
+    font-weight:400;
+    font-size:clamp(2.6rem, 8vw, 4.6rem);
+    line-height:1.02;
+    letter-spacing:.01em;
+    margin:0;
+    color:var(--text);
+    text-wrap:balance;
+  }
+  .dates{
+    display:inline-flex;
+    align-items:center;
+    gap:.6em;
+    font-size:.85rem;
+    font-weight:700;
+    color:var(--text);
+    background:var(--surface);
+    border:1px solid var(--surface-border);
+    padding:.55em 1.1em;
+    border-radius:999px;
+  }
+  .dates .sep{color:var(--yellow);}
+  .stat{
+    margin:0;
+    font-size:1.05rem;
+    color:var(--text-soft);
+  }
+  .stat strong{
+    font-family:'Anton','Arial Narrow',sans-serif;
+    font-size:1.5rem;
+    font-weight:400;
+    letter-spacing:.01em;
+    color:var(--yellow);
+    margin-right:.15em;
+  }
+  .tagline{
+    max-width:36ch;
+    margin:0;
+    color:var(--text-soft);
+    font-size:1.05rem;
+    line-height:1.6;
+    text-wrap:balance;
+  }
+
+  .cta{
+    display:inline-block;
+    font-family:'Anton','Arial Narrow',sans-serif;
+    font-size:1.2rem;
+    letter-spacing:.01em;
+    color:var(--yellow-ink);
+    background:var(--yellow);
+    border:none;
+    text-decoration:none;
+    padding:.85em 2em;
+    border-radius:12px;
+    margin-top:.4rem;
+    cursor:pointer;
+    box-shadow:0 10px 24px rgba(255,209,0,.18);
+    transition:transform .15s ease, box-shadow .15s ease, filter .15s ease;
+  }
+  .cta:hover{transform:translateY(-2px); filter:brightness(1.05); box-shadow:0 14px 30px rgba(255,209,0,.24);}
+  .cta:active{transform:translateY(0);}
+  .cta:focus-visible{outline:3px solid var(--text); outline-offset:3px;}
+  .fine-print{
+    font-size:.8rem;
+    color:var(--text-soft);
+    margin:0;
+  }
+
+  /* ---------- prizes ---------- */
+  .prizes{
+    margin-top:5rem;
+  }
+  .prizes-head{
+    text-align:center;
+    max-width:520px;
+    margin:0 auto 2.4rem;
+  }
+  .prizes-head .eyebrow{margin-bottom:.5rem;}
+  .prizes-head h2{
+    font-family:'Anton','Arial Narrow',sans-serif;
+    font-weight:400;
+    font-size:clamp(1.7rem, 4vw, 2.3rem);
+    margin:0;
+    color:var(--text);
+    text-wrap:balance;
+  }
+  .prizes-value{
+    margin:.5rem 0 0;
+    font-size:.9rem;
+    font-weight:700;
+    color:var(--yellow);
+  }
+
+  .prizes-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
+    gap:1.25rem;
+    max-width:860px;
+    margin:0 auto;
+  }
+  .prize{
+    background:var(--surface);
+    border:1px solid var(--surface-border);
+    border-radius:16px;
+    padding:1.5rem 1.4rem 1.6rem;
+    text-align:left;
+  }
+  .prize-top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    margin-bottom:1rem;
+  }
+  .icon-tile{
+    width:64px; height:64px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex:0 0 auto;
+  }
+  .icon-tile svg{width:38px; height:38px;}
+  .icon-tile.i-laptop{background:rgba(92,161,220,.16);}
+  .icon-tile.i-console{background:rgba(255,255,255,.07);}
+  .icon-tile.i-tv{background:rgba(150,124,246,.18);}
+  .icon-tile.i-card100{background:rgba(232,178,60,.18);}
+  .icon-tile.i-card50{background:rgba(58,181,166,.18);}
+  .prize-tag{
+    font-size:.72rem;
+    font-weight:800;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--text-soft);
+    background:rgba(255,255,255,.06);
+    padding:.3em .6em;
+    border-radius:999px;
+  }
+  .prize h3{
+    font-family:'Anton','Arial Narrow',sans-serif;
+    font-weight:400;
+    font-size:1.25rem;
+    letter-spacing:.005em;
+    margin:0 0 .4rem;
+    color:var(--text);
+  }
+  .prize p{
+    margin:0;
+    font-size:.92rem;
+    line-height:1.55;
+    color:var(--text-soft);
+  }
+
+  footer{
+    text-align:center;
+    margin-top:4rem;
+    font-size:.78rem;
+    color:var(--text-soft);
+    line-height:1.8;
+  }
+
+  /* ---------- form / riddle screens ---------- */
+  .form-card{
+    max-width:440px;
+    margin:4rem auto;
+    background:var(--surface);
+    border:1px solid var(--surface-border);
+    border-radius:20px;
+    padding:2.2rem 2rem;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:1.1rem;
+  }
+  .form-card h2{
+    font-family:'Anton','Arial Narrow',sans-serif;
+    font-weight:400;
+    font-size:clamp(1.6rem, 5vw, 2.1rem);
+    margin:0;
+    color:var(--text);
+    text-wrap:balance;
+  }
+  .field-group{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    gap:1rem;
+    text-align:left;
+  }
+  .field{display:flex; flex-direction:column; gap:.4rem;}
+  .field label{
+    font-size:.75rem;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--text-soft);
+  }
+  .field input{
+    background:var(--bg);
+    border:1px solid var(--surface-border);
+    border-radius:10px;
+    padding:.75em .9em;
+    color:var(--text);
+    font-family:'Manrope',sans-serif;
+    font-size:1rem;
+  }
+  .field input:focus-visible{outline:2px solid var(--yellow); outline-offset:1px; border-color:var(--yellow);}
+  .conditions{
+    display:flex;
+    flex-direction:column;
+    gap:.65rem;
+    background:var(--bg);
+    border:1px solid var(--surface-border);
+    border-radius:10px;
+    padding:.9em 1em;
+  }
+  .conditions-label{
+    margin:0;
+    font-size:.72rem;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--text-soft);
+  }
+  .check{
+    display:flex;
+    align-items:flex-start;
+    gap:.6em;
+    font-size:.88rem;
+    line-height:1.4;
+    color:var(--text);
+    cursor:pointer;
+  }
+  .check input{
+    margin-top:.2em;
+    width:16px; height:16px;
+    flex:0 0 auto;
+    accent-color:var(--yellow);
+  }
+  .form-card .cta{width:100%;}
+  .back-link{
+    background:none;
+    border:none;
+    color:var(--text-soft);
+    font-size:.85rem;
+    cursor:pointer;
+    text-decoration:underline;
+    padding:.4em;
+    font-family:'Manrope',sans-serif;
+  }
+  .back-link:hover{color:var(--text);}
+  .riddle-box{
+    width:100%;
+    background:var(--bg);
+    border:1px solid var(--surface-border);
+    border-left:3px solid var(--yellow);
+    border-radius:10px;
+    padding:1.1em 1.3em;
+    font-size:1.02rem;
+    line-height:1.6;
+    color:var(--text);
+    font-style:italic;
+    text-align:left;
+    margin:0;
+  }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="glowBlue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9CD8FF"/>
+      <stop offset="1" stop-color="#2E5F8A"/>
+    </linearGradient>
+    <linearGradient id="glowPurple" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8B7CF6"/>
+      <stop offset="1" stop-color="#2FB8B0"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFE388"/>
+      <stop offset="1" stop-color="#E8B23C"/>
+    </linearGradient>
+    <linearGradient id="teal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8FE9DC"/>
+      <stop offset="1" stop-color="#2FA69A"/>
+    </linearGradient>
+
+    <symbol id="p-laptop" viewBox="0 0 64 64">
+      <rect x="14" y="8" width="36" height="24" rx="2" fill="#2B2E33"/>
+      <rect x="17" y="11" width="30" height="18" fill="url(#glowBlue)"/>
+      <path d="M8 34h48l-4 6H12z" fill="#B7BCC2"/>
+      <rect x="8" y="40" width="48" height="2" rx="1" fill="#8B9096"/>
+    </symbol>
+
+    <symbol id="p-console" viewBox="0 0 64 64">
+      <rect x="27" y="6" width="12" height="40" rx="5" fill="#E7E9EC"/>
+      <rect x="32" y="6" width="2" height="40" fill="#1C1E22"/>
+      <path d="M11 42a5 5 0 0 1 5-4h6l3 3h14l3-3h6a5 5 0 0 1 5 4l2 8a4 4 0 0 1-7 3l-3-4H19l-3 4a4 4 0 0 1-7-3z" fill="#202226"/>
+      <path d="M18 45v5M15.5 47.5h5" stroke="#F2F3F4" stroke-width="1.4" stroke-linecap="round"/>
+      <circle cx="46" cy="45" r="1.6" fill="#4F8EF7"/>
+      <circle cx="49.5" cy="48.5" r="1.6" fill="#F24E6B"/>
+      <circle cx="42.5" cy="48.5" r="1.6" fill="#33C481"/>
+      <circle cx="46" cy="52" r="1.6" fill="#F7C948"/>
+    </symbol>
+
+    <symbol id="p-tv" viewBox="0 0 64 64">
+      <rect x="6" y="10" width="52" height="30" rx="2" fill="#17181B"/>
+      <rect x="9" y="13" width="46" height="24" fill="url(#glowPurple)"/>
+      <path d="M27 40h10l-3 8h-4z" fill="#55595E"/>
+      <rect x="18" y="48" width="28" height="3" rx="1.5" fill="#3D4045"/>
+    </symbol>
+
+    <symbol id="p-card100" viewBox="0 0 64 64">
+      <rect x="5" y="15" width="54" height="34" rx="5" fill="url(#gold)"/>
+      <rect x="5" y="24" width="54" height="5" fill="rgba(0,0,0,.15)"/>
+      <text x="32" y="42" text-anchor="middle" font-family="'Manrope',sans-serif" font-weight="800" font-size="13" fill="#3B2A08">100€</text>
+    </symbol>
+
+    <symbol id="p-card50" viewBox="0 0 64 64">
+      <rect x="5" y="15" width="54" height="34" rx="5" fill="url(#teal)"/>
+      <rect x="5" y="24" width="54" height="5" fill="rgba(0,0,0,.15)"/>
+      <text x="32" y="42" text-anchor="middle" font-family="'Manrope',sans-serif" font-weight="800" font-size="13" fill="#0E3330">50€</text>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="scene" id="screen-home">
+  <section class="hero">
+    <span class="logo-chip">fnac</span>
+    <p class="eyebrow">Jeu-concours</p>
+    <h1>La Chasse au Trésor</h1>
+    <p class="dates">24 <span class="sep">→</span> 31 août <span class="sep">·</span> Tirage au sort le 31 août</p>
+    <p class="stat"><strong>3 500 €</strong> de lots à gagner</p>
+    <p class="tagline">Cinq indices, cinq lots à gagner. Suivez la piste jusqu'au bout du jeu.</p>
+    <button class="cta" type="button" id="ctaBtn">Participer à la chasse au trésor</button>
+    <p class="fine-print">Achat minimum 20 € · Adhésion au programme fidélité Fnac</p>
+  </section>
+
+  <section class="prizes" id="lots">
+    <div class="prizes-head">
+      <p class="eyebrow">À la clé</p>
+      <h2>5 lots à gagner</h2>
+      <p class="prizes-value">Une valeur totale de 3 500 €</p>
+    </div>
+    <div class="prizes-grid">
+      <article class="prize">
+        <div class="prize-top">
+          <div class="icon-tile i-laptop"><svg viewBox="0 0 64 64"><use href="#p-laptop"/></svg></div>
+          <span class="prize-tag">Lot n°1</span>
+        </div>
+        <h3>MacBook M5</h3>
+        <p>Puissance et style pour les explorateurs modernes.</p>
+      </article>
+
+      <article class="prize">
+        <div class="prize-top">
+          <div class="icon-tile i-console"><svg viewBox="0 0 64 64"><use href="#p-console"/></svg></div>
+          <span class="prize-tag">Lot n°2</span>
+        </div>
+        <h3>PlayStation 5</h3>
+        <p>Pour prolonger la traque manette en main.</p>
+      </article>
+
+      <article class="prize">
+        <div class="prize-top">
+          <div class="icon-tile i-tv"><svg viewBox="0 0 64 64"><use href="#p-tv"/></svg></div>
+          <span class="prize-tag">Lot n°3</span>
+        </div>
+        <h3>Téléviseur 4K</h3>
+        <p>De quoi suivre chaque piste sur grand écran.</p>
+      </article>
+
+      <article class="prize">
+        <div class="prize-top">
+          <div class="icon-tile i-card100"><svg viewBox="0 0 64 64"><use href="#p-card100"/></svg></div>
+          <span class="prize-tag">Lot n°4</span>
+        </div>
+        <h3>2 × Carte cadeau 100 €</h3>
+        <p>Deux sésames à dépenser où bon vous semble.</p>
+      </article>
+
+      <article class="prize">
+        <div class="prize-top">
+          <div class="icon-tile i-card50"><svg viewBox="0 0 64 64"><use href="#p-card50"/></svg></div>
+          <span class="prize-tag">Lot n°5</span>
+        </div>
+        <h3>2 × Carte cadeau 50 €</h3>
+        <p>Deux bonus pour prolonger l'aventure.</p>
+      </article>
+    </div>
+  </section>
+
+  <footer>
+    Jeu-concours organisé par FNAC · Règlement complet disponible sur simple demande · © 2026 FNAC
+  </footer>
+</div>
+
+<div class="scene" id="screen-form" hidden>
+  <section class="form-card">
+    <p class="eyebrow">Étape 1/2</p>
+    <h2>Rejoignez la chasse</h2>
+    <p class="tagline">Indiquez vos nom et prénom pour débloquer le premier indice.</p>
+    <form id="participateForm" class="field-group">
+      <div class="field">
+        <label for="prenomInput">Prénom</label>
+        <input type="text" id="prenomInput" name="prenom" autocomplete="given-name" required>
+      </div>
+      <div class="field">
+        <label for="nomInput">Nom</label>
+        <input type="text" id="nomInput" name="nom" autocomplete="family-name" required>
+      </div>
+
+      <div class="conditions">
+        <p class="conditions-label">Conditions de participation</p>
+        <label class="check">
+          <input type="checkbox" required>
+          <span>J'ai effectué un achat d'un montant minimum de 20 €</span>
+        </label>
+        <label class="check">
+          <input type="checkbox" required>
+          <span>Je suis inscrit(e) au programme de fidélité Fnac</span>
+        </label>
+      </div>
+
+      <button type="submit" class="cta">Valider</button>
+    </form>
+    <button type="button" class="back-link" id="backToHome">← Retour</button>
+  </section>
+</div>
+
+<div class="scene" id="screen-riddle" hidden>
+  <section class="form-card">
+    <p class="eyebrow">Indice n°1 débloqué</p>
+    <h2 id="riddleGreeting">Bravo !</h2>
+    <p class="riddle-box">« Là où la lumière du matin frappe la vitre en premier, cherchez un chiffre gravé. »</p>
+    <p class="tagline">Revenez chaque semaine pour un nouvel indice.</p>
+    <button type="button" class="cta" id="viewPrizesBtn">Voir les lots à gagner</button>
+  </section>
+</div>
+
+<script>
+  (function(){
+    var screens = {
+      home: document.getElementById('screen-home'),
+      form: document.getElementById('screen-form'),
+      riddle: document.getElementById('screen-riddle')
+    };
+    function show(name){
+      Object.keys(screens).forEach(function(key){
+        screens[key].hidden = key !== name;
+      });
+      window.scrollTo({top:0, behavior:'auto'});
+    }
+    document.getElementById('ctaBtn').addEventListener('click', function(){
+      show('form');
+    });
+    document.getElementById('backToHome').addEventListener('click', function(){
+      show('home');
+    });
+    document.getElementById('participateForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      var prenom = document.getElementById('prenomInput').value.trim();
+      document.getElementById('riddleGreeting').textContent = prenom ? 'Bravo, ' + prenom + ' !' : 'Bravo !';
+      show('riddle');
+    });
+    document.getElementById('viewPrizesBtn').addEventListener('click', function(){
+      show('home');
+      document.getElementById('lots').scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  })();
+</script>
