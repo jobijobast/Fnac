@@ -931,7 +931,26 @@
         <p class="step-progress">Étape 5 · Tirage au sort</p>
         <h2 id="lotteryGreeting">Bravo !</h2>
         <p class="riddle-box">« L'aventure s'arrête ici… mais peut-être que le trésor est à portée de main. Retourne faire valider ton parcours. »</p>
-        <p class="tagline">Faites valider votre parcours pour confirmer votre participation au tirage au sort du 31 août parmi les 5 lots en jeu.</p>
+        <p class="tagline">Les trois énigmes sont résolues. Inscrivez-vous au tirage au sort du 31 août pour tenter de remporter l'un des 5 lots en jeu.</p>
+        <button type="button" class="cta" id="enterLotteryBtn">S'inscrire à la loterie</button>
+      </section>
+    </div>
+  </section>
+</div>
+
+<div id="screen-confirmed" hidden>
+  <section class="hunt-band">
+    <div class="hunt-decor" aria-hidden="true">
+      <svg class="d1" viewBox="0 0 64 64"><use href="#p-card100"/></svg>
+      <svg class="d2" viewBox="0 0 64 64"><use href="#p-tv"/></svg>
+      <svg class="d3" viewBox="0 0 64 64"><use href="#p-card50"/></svg>
+    </div>
+    <div class="inner">
+      <section class="form-card">
+        <span class="big-badge"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>
+        <p class="step-progress">Inscription confirmée</p>
+        <h2 id="confirmedGreeting">Vous êtes inscrit(e) !</h2>
+        <p class="tagline">Vous participez désormais au tirage au sort du 31 août parmi les 5 lots en jeu. Bonne chance !</p>
         <button type="button" class="cta" id="viewPrizesBtn">Voir les lots à gagner</button>
       </section>
     </div>
@@ -957,7 +976,8 @@
       'riddle-1': document.getElementById('screen-riddle-1'),
       'riddle-2': document.getElementById('screen-riddle-2'),
       'riddle-3': document.getElementById('screen-riddle-3'),
-      lottery: document.getElementById('screen-lottery')
+      lottery: document.getElementById('screen-lottery'),
+      confirmed: document.getElementById('screen-confirmed')
     };
     function show(name){
       if(readyTimer){ clearTimeout(readyTimer); readyTimer = null; }
@@ -1006,6 +1026,11 @@
           errorEl.hidden = false;
         }
       });
+    });
+
+    document.getElementById('enterLotteryBtn').addEventListener('click', function(){
+      document.getElementById('confirmedGreeting').textContent = prenomValue ? 'Bravo, ' + prenomValue + ' !' : 'Vous êtes inscrit(e) !';
+      show('confirmed');
     });
 
     document.getElementById('viewPrizesBtn').addEventListener('click', function(){
