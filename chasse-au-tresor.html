@@ -847,8 +847,8 @@
       <section class="form-card">
         <p class="step-progress">Étape 2 · Énigme 1 / 3</p>
         <h2>Premier indice</h2>
-        <p class="riddle-box">« Là où la lumière du matin frappe la vitre en premier, cherchez un chiffre gravé. »</p>
-        <form class="field-group riddle-form" data-next="riddle-2">
+        <p class="riddle-box">« Ton premier indice se trouve là où commence toute bonne rentrée. Cherche parmi ceux qui donnent vie aux idées. »</p>
+        <form class="field-group riddle-form" data-answer="Papeterie" data-next="riddle-2">
           <div class="field">
             <label for="answer1">Votre réponse</label>
             <input type="text" id="answer1" autocomplete="off" required>
@@ -873,8 +873,8 @@
       <section class="form-card">
         <p class="step-progress">Étape 3 · Énigme 2 / 3</p>
         <h2>Deuxième indice</h2>
-        <p class="riddle-box">« Je n'ai pas de bouche mais je raconte mille histoires. On me feuillette, jamais on ne m'écoute. Qui suis-je ? »</p>
-        <form class="field-group riddle-form" data-next="riddle-3">
+        <p class="riddle-box">« Change d'univers. Ici, les héros ne sont pas dans les livres… ils sont derrière un écran. »</p>
+        <form class="field-group riddle-form" data-answer="Jeux vidéo" data-next="riddle-3">
           <div class="field">
             <label for="answer2">Votre réponse</label>
             <input type="text" id="answer2" autocomplete="off" required>
@@ -899,8 +899,8 @@
       <section class="form-card">
         <p class="step-progress">Étape 4 · Énigme 3 / 3</p>
         <h2>Troisième indice</h2>
-        <p class="riddle-box">« Plus on me prend, plus je grandis dans l'ombre. Je nais dans la lumière et je meurs avec elle. Qui suis-je ? »</p>
-        <form class="field-group riddle-form" data-next="lottery">
+        <p class="riddle-box">« Pour le prochain indice, pas besoin de connexion. Il suffit d'ouvrir la bonne page. »</p>
+        <form class="field-group riddle-form" data-answer="Librairie" data-next="lottery">
           <div class="field">
             <label for="answer3">Votre réponse</label>
             <input type="text" id="answer3" autocomplete="off" required>
@@ -926,7 +926,8 @@
         <span class="big-badge"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span>
         <p class="step-progress">Étape 5 · Tirage au sort</p>
         <h2 id="lotteryGreeting">Bravo !</h2>
-        <p class="tagline">Les trois énigmes sont résolues : vous êtes inscrit(e) au tirage au sort du 31 août parmi les 5 lots en jeu.</p>
+        <p class="riddle-box">« L'aventure s'arrête ici… mais peut-être que le trésor est à portée de main. Retourne faire valider ton parcours. »</p>
+        <p class="tagline">Faites valider votre parcours pour confirmer votre participation au tirage au sort du 31 août parmi les 5 lots en jeu.</p>
         <button type="button" class="cta" id="viewPrizesBtn">Voir les lots à gagner</button>
       </section>
     </div>
@@ -940,8 +941,11 @@
       heroVideo.removeAttribute('autoplay');
       heroVideo.pause();
     }
-    var TEST_ANSWER = 'MONI';
+    var prenomValue = '';
     var readyTimer = null;
+    function normalize(str){
+      return str.trim().toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
     var screens = {
       home: document.getElementById('screen-home'),
       form: document.getElementById('screen-form'),
@@ -970,8 +974,8 @@
 
     document.getElementById('participateForm').addEventListener('submit', function(e){
       e.preventDefault();
-      var prenom = document.getElementById('prenomInput').value.trim();
-      document.getElementById('readyGreeting').textContent = prenom ? 'Vous êtes prêt(e), ' + prenom + ' !' : 'Vous êtes prêt(e) !';
+      prenomValue = document.getElementById('prenomInput').value.trim();
+      document.getElementById('readyGreeting').textContent = prenomValue ? 'Vous êtes prêt(e), ' + prenomValue + ' !' : 'Vous êtes prêt(e) !';
       show('ready');
       readyTimer = setTimeout(function(){ show('riddle-1'); }, 2200);
     });
@@ -985,10 +989,15 @@
         e.preventDefault();
         var input = form.querySelector('input');
         var errorEl = form.querySelector('.form-error');
-        var value = input.value.trim().toUpperCase();
-        if(value === TEST_ANSWER){
+        var expected = normalize(form.getAttribute('data-answer'));
+        var value = normalize(input.value);
+        if(value === expected){
           errorEl.hidden = true;
-          show(form.getAttribute('data-next'));
+          var next = form.getAttribute('data-next');
+          if(next === 'lottery'){
+            document.getElementById('lotteryGreeting').textContent = prenomValue ? 'Bravo, ' + prenomValue + ' !' : 'Bravo !';
+          }
+          show(next);
         } else {
           errorEl.hidden = false;
         }
